@@ -24,6 +24,7 @@ class ASTNode {
     // Every AST node should implement these functions so they are pure virtuals
     virtual Type  getType() = 0 ;
     virtual double evaluate(EvaluationContext& ctx) = 0;
+    virtual void optimize(std::unique_ptr<ASTNode>& thisRef) = 0;
 
     // This is necessary for clean-ups 
     // A default implementation is enough for the whole hierarchy, as we use smart pointers 
@@ -46,6 +47,7 @@ public:
     using UnaryASTNode::UnaryASTNode;
     Type  getType() override ;
     double evaluate(EvaluationContext& ctx) override ;
+    void optimize(std::unique_ptr<ASTNode>& thisRef) override;
 };
 
 class UnaryMinus: public UnaryASTNode{
@@ -54,6 +56,7 @@ public:
     using UnaryASTNode::UnaryASTNode;
     Type  getType() override ;
     double evaluate(EvaluationContext& ctx) override ;
+    void optimize(std::unique_ptr<ASTNode>& thisRef) override;
 };
 
 class BinaryASTNode: public ASTNode{
@@ -74,6 +77,7 @@ public:
     using BinaryASTNode::BinaryASTNode;
     Type  getType() override ;
     double evaluate(EvaluationContext& ctx) override ;
+    void optimize(std::unique_ptr<ASTNode>& thisRef) override;
 };
 class Subtract: public BinaryASTNode{
 public:
@@ -81,6 +85,7 @@ public:
     using BinaryASTNode::BinaryASTNode;
     Type  getType() override ;
     double evaluate(EvaluationContext& ctx) override ;
+    void optimize(std::unique_ptr<ASTNode>& thisRef) override;
 };
 class Multiply: public BinaryASTNode{
 public:
@@ -88,6 +93,7 @@ public:
     using BinaryASTNode::BinaryASTNode;
     Type  getType() override ;
     double evaluate(EvaluationContext& ctx) override ;
+    void optimize(std::unique_ptr<ASTNode>& thisRef) override;
 };
 class Divide: public BinaryASTNode{
 public:
@@ -95,6 +101,7 @@ public:
     using BinaryASTNode::BinaryASTNode;
     Type  getType() override ;
     double evaluate(EvaluationContext& ctx) override ;
+    void optimize(std::unique_ptr<ASTNode>& thisRef) override;
 };
 class Power: public BinaryASTNode{
 public:
@@ -102,6 +109,7 @@ public:
     using BinaryASTNode::BinaryASTNode;
     Type  getType() override ;
     double evaluate(EvaluationContext& ctx) override ;
+    void optimize(std::unique_ptr<ASTNode>& thisRef) override;
 };
 class Constant: public ASTNode{
 public:
@@ -109,6 +117,7 @@ public:
     double getValue();
     Type  getType() override ;
     double evaluate(EvaluationContext& ctx) override ;
+    void optimize(std::unique_ptr<ASTNode>& thisRef) override;
 private:
     double m_double;
 };
@@ -119,6 +128,7 @@ public:
     size_t getIndex();
     Type  getType() override ;
     double evaluate(EvaluationContext& ctx) override ;
+    void optimize(std::unique_ptr<ASTNode>& thisRef) override;
 
 private:
     size_t m_idx;

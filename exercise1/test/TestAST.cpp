@@ -331,11 +331,11 @@ TEST(TestAST, OptimizeDivide2) {
     node->optimize(node);
     ASSERT_EQ(node->getType(), ASTNode::Type::Multiply);
     auto& m = static_cast<Multiply&>(*node);
-    const auto& input0 = m.getLeft();
-    const auto& input1 = m.getRight();
+    auto& input0 = m.getLeft();
+    auto& input1 = m.getRight();
     EXPECT_EQ(&input0, aPtr);
     ASSERT_EQ(input1.getType(), ASTNode::Type::Constant);
-    const auto& c = static_cast<const Constant&>(input1);
+    auto& c = static_cast<Constant&>(input1);
     EXPECT_EQ(c.getValue(), 0.5);
 }
 //---------------------------------------------------------------------------
@@ -402,10 +402,10 @@ TEST(TestAST, OptimizePower3) {
     node->optimize(node);
     ASSERT_EQ(node->getType(), ASTNode::Type::Divide);
     auto& d = static_cast<Divide&>(*node);
-    const auto& input0 = d.getLeft();
-    const auto& input1 = d.getRight();
+    auto& input0 = d.getLeft();
+    auto& input1 = d.getRight();
     ASSERT_EQ(input0.getType(), ASTNode::Type::Constant);
-    const auto& c = static_cast<const Constant&>(input0);
+    auto& c = static_cast<Constant&>(input0);
     EXPECT_EQ(c.getValue(), 1.0);
     EXPECT_EQ(&input1, aPtr);
 }
