@@ -1,9 +1,9 @@
 #ifndef H_lib_AST
 #define H_lib_AST
 //---------------------------------------------------------------------------
-#include <memory>
-#include "EvaluationContext.hpp"
 #include "ASTVisitor.hpp"
+#include "EvaluationContext.hpp"
+#include <memory>
 //---------------------------------------------------------------------------
 namespace ast {
 //---------------------------------------------------------------------------
@@ -23,124 +23,124 @@ class ASTNode {
         Parameter
     };
     // Every AST node should implement these functions so they are pure virtuals
-    virtual Type  getType() = 0 ;
+    virtual Type getType() = 0;
     virtual double evaluate(EvaluationContext& ctx) = 0;
     virtual void optimize(std::unique_ptr<ASTNode>& thisRef) = 0;
     virtual void accept(ASTVisitor& visitor) = 0;
-    // This is necessary for clean-ups 
-    // A default implementation is enough for the whole hierarchy, as we use smart pointers 
-    virtual ~ASTNode()=default;
+    // This is necessary for clean-ups
+    // A default implementation is enough for the whole hierarchy, as we use smart pointers
+    virtual ~ASTNode() = default;
 };
 
-class UnaryASTNode : public ASTNode{
-public:
+class UnaryASTNode : public ASTNode {
+    public:
     UnaryASTNode(std::unique_ptr<ASTNode> ptr);
     ASTNode& getInput();
     ASTNode* releaseInput();
 
-protected:
+    protected:
     std::unique_ptr<ASTNode> m_ptr;
 };
 
-class UnaryPlus: public UnaryASTNode{
-public:
+class UnaryPlus : public UnaryASTNode {
+    public:
     //inheriting constructors
     using UnaryASTNode::UnaryASTNode;
-    Type  getType() override ;
-    double evaluate(EvaluationContext& ctx) override ;
+    Type getType() override;
+    double evaluate(EvaluationContext& ctx) override;
     void optimize(std::unique_ptr<ASTNode>& thisRef) override;
     void accept(ASTVisitor& visitor) override;
 };
 
-class UnaryMinus: public UnaryASTNode{
-public:
+class UnaryMinus : public UnaryASTNode {
+    public:
     //inheriting constructors
     using UnaryASTNode::UnaryASTNode;
-    Type  getType() override ;
-    double evaluate(EvaluationContext& ctx) override ;
+    Type getType() override;
+    double evaluate(EvaluationContext& ctx) override;
     void optimize(std::unique_ptr<ASTNode>& thisRef) override;
     void accept(ASTVisitor& visitor) override;
 };
 
-class BinaryASTNode: public ASTNode{
-
-public:
+class BinaryASTNode : public ASTNode {
+    public:
     BinaryASTNode(std::unique_ptr<ASTNode> left, std::unique_ptr<ASTNode> right);
     ASTNode& getLeft();
     ASTNode& getRight();
     ASTNode* releaseLeft();
     ASTNode* releaseRight();
-protected:
-    std::unique_ptr<ASTNode> m_left, m_right;
 
+    protected:
+    std::unique_ptr<ASTNode> m_left, m_right;
 };
-class Add: public BinaryASTNode{
-public:
+class Add : public BinaryASTNode {
+    public:
     //inheriting constructors
     using BinaryASTNode::BinaryASTNode;
-    Type  getType() override ;
-    double evaluate(EvaluationContext& ctx) override ;
+    Type getType() override;
+    double evaluate(EvaluationContext& ctx) override;
     void optimize(std::unique_ptr<ASTNode>& thisRef) override;
     void accept(ASTVisitor& visitor) override;
 };
-class Subtract: public BinaryASTNode{
-public:
+class Subtract : public BinaryASTNode {
+    public:
     //inheriting constructors
     using BinaryASTNode::BinaryASTNode;
-    Type  getType() override ;
-    double evaluate(EvaluationContext& ctx) override ;
+    Type getType() override;
+    double evaluate(EvaluationContext& ctx) override;
     void optimize(std::unique_ptr<ASTNode>& thisRef) override;
     void accept(ASTVisitor& visitor) override;
 };
-class Multiply: public BinaryASTNode{
-public:
+class Multiply : public BinaryASTNode {
+    public:
     //inheriting constructors
     using BinaryASTNode::BinaryASTNode;
-    Type  getType() override ;
-    double evaluate(EvaluationContext& ctx) override ;
+    Type getType() override;
+    double evaluate(EvaluationContext& ctx) override;
     void optimize(std::unique_ptr<ASTNode>& thisRef) override;
     void accept(ASTVisitor& visitor) override;
 };
-class Divide: public BinaryASTNode{
-public:
+class Divide : public BinaryASTNode {
+    public:
     //inheriting constructors
     using BinaryASTNode::BinaryASTNode;
-    Type  getType() override ;
-    double evaluate(EvaluationContext& ctx) override ;
+    Type getType() override;
+    double evaluate(EvaluationContext& ctx) override;
     void optimize(std::unique_ptr<ASTNode>& thisRef) override;
     void accept(ASTVisitor& visitor) override;
 };
-class Power: public BinaryASTNode{
-public:
+class Power : public BinaryASTNode {
+    public:
     //inheriting constructors
     using BinaryASTNode::BinaryASTNode;
-    Type  getType() override ;
-    double evaluate(EvaluationContext& ctx) override ;
+    Type getType() override;
+    double evaluate(EvaluationContext& ctx) override;
     void optimize(std::unique_ptr<ASTNode>& thisRef) override;
     void accept(ASTVisitor& visitor) override;
 };
-class Constant: public ASTNode{
-public:
+class Constant : public ASTNode {
+    public:
     Constant(double value);
     double getValue();
-    Type  getType() override ;
-    double evaluate(EvaluationContext& ctx) override ;
+    Type getType() override;
+    double evaluate(EvaluationContext& ctx) override;
     void optimize(std::unique_ptr<ASTNode>& thisRef) override;
     void accept(ASTVisitor& visitor) override;
-private:
+
+    private:
     double m_double;
 };
 
-class Parameter: public ASTNode{
-public:
+class Parameter : public ASTNode {
+    public:
     Parameter(size_t idx);
     size_t getIndex();
-    Type  getType() override ;
-    double evaluate(EvaluationContext& ctx) override ;
+    Type getType() override;
+    double evaluate(EvaluationContext& ctx) override;
     void optimize(std::unique_ptr<ASTNode>& thisRef) override;
     void accept(ASTVisitor& visitor) override;
 
-private:
+    private:
     size_t m_idx;
 };
 

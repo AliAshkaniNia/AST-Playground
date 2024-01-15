@@ -4,11 +4,12 @@
 #include <vector>
 //---------------------------------------------------------------------------
 namespace ast {
-class EvaluationContext{
-public:
+class EvaluationContext {
+    public:
     void pushParameter(double value);
     double getParameter(size_t idx);
-protected:
+
+    protected:
     std::vector<double> m_values;
 };
 } // namespace ast
