@@ -30,6 +30,10 @@ void UnaryPlus::optimize(std::unique_ptr<ASTNode>& thisRef) {
     }
 }
 
+void UnaryPlus::accept(ASTVisitor& visitor){
+    visitor.visit(*this);
+}
+
 ASTNode::Type UnaryMinus::getType() {
     return Type::UnaryMinus;
 }   
@@ -67,6 +71,10 @@ void UnaryMinus::optimize(std::unique_ptr<ASTNode>& thisRef) {
         break;
     }
 }
+void UnaryMinus::accept(ASTVisitor& visitor){
+    visitor.visit(*this);
+}
+
 BinaryASTNode::BinaryASTNode(std::unique_ptr<ASTNode> left, std::unique_ptr<ASTNode> right):
 m_left(std::move(left)), m_right(std::move(right)){
     
@@ -128,6 +136,9 @@ void Add::optimize(std::unique_ptr<ASTNode>& thisRef) {
         thisRef = std::make_unique<Subtract>(std::move(prevLeftChild), std::move(prevRightChild));
     }
 }
+void Add::accept(ASTVisitor& visitor){
+    visitor.visit(*this);
+}
 ASTNode::Type Subtract::getType() {
     return Type::Subtract;
 }   
@@ -162,6 +173,9 @@ void Subtract::optimize(std::unique_ptr<ASTNode>& thisRef) {
         std::unique_ptr<ASTNode> prevRightChild(static_cast<UnaryASTNode*>(m_right.get())->releaseInput());
         thisRef = std::make_unique<Add>(std::move(prevLeftChild), std::move(prevRightChild));
     }
+}
+void Subtract::accept(ASTVisitor& visitor){
+    visitor.visit(*this);
 }
 ASTNode::Type Multiply::getType() {
     return Type::Multiply;
@@ -201,6 +215,9 @@ void Multiply::optimize(std::unique_ptr<ASTNode>& thisRef) {
         std::unique_ptr<ASTNode> prevRightChild(static_cast<UnaryASTNode*>(m_right.get())->releaseInput());
         thisRef = std::make_unique<Multiply>(std::move(prevLeftChild), std::move(prevRightChild));
     }
+}
+void Multiply::accept(ASTVisitor& visitor){
+    visitor.visit(*this);
 }
 ASTNode::Type Divide::getType() {
     return Type::Divide;
@@ -242,6 +259,9 @@ void Divide::optimize(std::unique_ptr<ASTNode>& thisRef) {
         std::unique_ptr<ASTNode> prevRightChild(static_cast<UnaryASTNode*>(m_right.get())->releaseInput());
         thisRef = std::make_unique<Divide>(std::move(prevLeftChild), std::move(prevRightChild));
     }
+}
+void Divide::accept(ASTVisitor& visitor){
+    visitor.visit(*this);
 }
 ASTNode::Type Power::getType() {
     return Type::Power;
@@ -288,7 +308,9 @@ void Power::optimize(std::unique_ptr<ASTNode>& thisRef) {
         thisRef = std::make_unique<Divide>(std::move(prevLeftChild), std::move(prevRightChild));
     }
 }
-
+void Power::accept(ASTVisitor& visitor){
+    visitor.visit(*this);
+}
 Constant::Constant(double value):m_double(value){
 
 }
@@ -306,6 +328,9 @@ double Constant::evaluate(EvaluationContext& ctx) {
 void Constant::optimize(std::unique_ptr<ASTNode>& thisRef) {
     //nothing to be done in here 
     (void)thisRef;//suppressing compiler unused parameter warnings 
+}
+void Constant::accept(ASTVisitor& visitor){
+    visitor.visit(*this);
 }
 Parameter::Parameter(size_t idx): m_idx(idx){
 
@@ -325,6 +350,8 @@ void Parameter::optimize(std::unique_ptr<ASTNode>& thisRef) {
     //nothing to be done in here 
     (void)thisRef;//suppressing compiler unused parameter warnings 
 }
-
+void Parameter::accept(ASTVisitor& visitor){
+    visitor.visit(*this);
+}
 } // namespace ast
 //---------------------------------------------------------------------------
