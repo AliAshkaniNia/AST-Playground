@@ -97,5 +97,20 @@ double Constant::evaluate(EvaluationContext& ctx) {
     return getValue();
 }
 
+Parameter::Parameter(size_t idx): m_idx(idx){
+
+}
+size_t Parameter::getIndex(){
+    return m_idx;
+}
+
+ASTNode::Type Parameter::getType() {
+    return Type::Parameter;
+}
+
+double Parameter::evaluate(EvaluationContext& ctx) {
+    return ctx.getParameter(m_idx);
+}
+
 } // namespace ast
 //---------------------------------------------------------------------------

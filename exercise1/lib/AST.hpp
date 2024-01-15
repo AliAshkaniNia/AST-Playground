@@ -112,8 +112,16 @@ public:
 private:
     double m_double;
 };
-class Parameter: public ASTNode{
 
+class Parameter: public ASTNode{
+public:
+    Parameter(size_t idx);
+    size_t getIndex();
+    Type  getType() override ;
+    double evaluate(EvaluationContext& ctx) override ;
+
+private:
+    size_t m_idx;
 };
 
 //---------------------------------------------------------------------------
