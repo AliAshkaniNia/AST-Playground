@@ -1,0 +1,19 @@
+ast:
+  script:
+    - mkdir ci_ast
+    - cd ci_ast
+    - cmake -DCMAKE_BUILD_TYPE=Debug ../exercise1
+    - make
+    - ./test/tester
+  tags:
+    - cmake
+
+lint_ast:
+  script:
+    - mkdir ci_lint_ast
+    - cd ci_lint_ast
+    - cmake -DCMAKE_BUILD_TYPE=Debug ../exercise1
+    - make lint
+  tags:
+    - cmake
+    - clang-tidy
