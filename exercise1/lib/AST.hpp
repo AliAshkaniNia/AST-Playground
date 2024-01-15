@@ -57,22 +57,51 @@ public:
 };
 
 class BinaryASTNode: public ASTNode{
-    
+
+public:
+    BinaryASTNode(std::unique_ptr<ASTNode> left, std::unique_ptr<ASTNode> right);
+    ASTNode& getLeft();
+    ASTNode& getRight();
+    ASTNode* releaseLeft();
+    ASTNode* releaseRight();
+protected:
+    std::unique_ptr<ASTNode> m_left, m_right;
+
 };
 class Add: public BinaryASTNode{
-
+public:
+    //inheriting constructors
+    using BinaryASTNode::BinaryASTNode;
+    Type  getType() override ;
+    double evaluate(EvaluationContext& ctx) override ;
 };
 class Subtract: public BinaryASTNode{
-
+public:
+    //inheriting constructors
+    using BinaryASTNode::BinaryASTNode;
+    Type  getType() override ;
+    double evaluate(EvaluationContext& ctx) override ;
 };
 class Multiply: public BinaryASTNode{
-
+public:
+    //inheriting constructors
+    using BinaryASTNode::BinaryASTNode;
+    Type  getType() override ;
+    double evaluate(EvaluationContext& ctx) override ;
 };
 class Divide: public BinaryASTNode{
-
+public:
+    //inheriting constructors
+    using BinaryASTNode::BinaryASTNode;
+    Type  getType() override ;
+    double evaluate(EvaluationContext& ctx) override ;
 };
 class Power: public BinaryASTNode{
-
+public:
+    //inheriting constructors
+    using BinaryASTNode::BinaryASTNode;
+    Type  getType() override ;
+    double evaluate(EvaluationContext& ctx) override ;
 };
 class Constant: public ASTNode{
 public:
