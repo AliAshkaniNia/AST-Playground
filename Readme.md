@@ -4,7 +4,7 @@ Welcome to AST-Playground, a light-hearted and educational open-source project b
 
 ## Project Insight
 
-Here, you'll find a template for constructing an AST for double expressions, as described in the `problem.pdf` file. It's important to note that this project is very much a toy project—it's not intended for serious use, but rather as a personal experimental space for understanding ASTs better. Initial files can be found at `initial` branch.
+Here, you'll find a template for constructing an AST for double expressions, as described in the [problem.pdf](problem.pdf) file. It's important to note that this project is very much a toy project—it's not intended for serious use, but rather as a personal experimental space for understanding ASTs better. Initial files can be found at [initial branch](../../tree/initial).
 
 ### Repository Composition
 
